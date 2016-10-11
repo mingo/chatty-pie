@@ -1,6 +1,6 @@
 # Guestbook
 Very simple python app that runs on Google App Engine.
-This is a fork of [Google's own appengine-guestbook-python][1]
+This is a fork of [Google's own appengine-guestbook-python][1].
 
 The idea is to offer a very simple application offering a REST api to guestbooks.
 The [guestbook-connector][2] is using that API.
@@ -9,6 +9,9 @@ The [guestbook-connector][2] is using that API.
 TODO!
 
 ## How to deploy?
+TODO!
+
+## How to test?
 TODO!
 
 ## License
