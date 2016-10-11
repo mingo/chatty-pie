@@ -5,11 +5,15 @@ This is a fork of [Google's own appengine-guestbook-python][1].
 The idea is to offer a very simple application offering a REST api to guestbooks.
 The [guestbook-connector][2] is using that API.
 
-## How to run?
-TODO!
+## Requirements
+* Python 2.7 - `brew install python`
+* [Google Cloud SDK][3] - install it & run `gcloud init`
+
+## How to run locally?
+`dev_appserver.py .`
 
 ## How to deploy?
-TODO!
+`gcloud app deploy`
 
 ## How to test?
 TODO!
@@ -19,3 +23,4 @@ This is under the Apache license.
 
 [1]: https://github.com/GoogleCloudPlatform/appengine-guestbook-python
 [2]: https://github.com/AppDirect/guestbook-connector
+[3]: https://cloud.google.com/sdk/docs/
