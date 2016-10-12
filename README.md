@@ -13,7 +13,8 @@ The [guestbook-connector][2] is using that API.
 `dev_appserver.py .`
 
 ## How to deploy?
-`gcloud app deploy`
+* `gcloud app deploy`
+* Stack traces about `NeedIndexError` are transient: they will disappear after 5 minutes or so (until indices are created.)
 
 ## How to test?
 TODO!
