@@ -117,15 +117,26 @@ class SignGuestbookViaForm(webapp2.RequestHandler):
         self.redirect('/?' + urllib.urlencode(query_params))
 
 
-class ListGuestbooks(webapp2.RequestHandler):
+class Guestbooks(webapp2.RequestHandler):
     def get(self):
         allBooks = get_all_books()
         self.response.content_type = "application/json"
         self.response.write(json.dumps([b.to_dict() for b in allBooks]))
 
+    def post(self):
+        try:
+            jsonBody = json.loads(self.request.body)
+            guestbook_name = jsonBody["name"]
+        except (ValueError, KeyError):
+            self.response.status = 400
+            return
+
+        get_or_create_book(guestbook_name)
+        self.response.status = 201
+
 
 app = webapp2.WSGIApplication([
     ('/', RenderGuestbookHtml),
     ('/sign', SignGuestbookViaForm),
-    ('/books', ListGuestbooks),
+    ('/books', Guestbooks)
 ], debug=True)
