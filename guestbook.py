@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
 import os
 import urllib
 
@@ -36,6 +37,10 @@ def get_or_create_book(guestbook_name):
         guestbook = Guestbook(id=guestbook_name, name=guestbook_name)
         guestbook.put()
     return guestbook
+
+
+def get_all_books():
+    return Guestbook.query().fetch()
 
 
 def get_all_greetings_in_book(guestbook_name):
@@ -112,7 +117,15 @@ class SignGuestbookViaForm(webapp2.RequestHandler):
         self.redirect('/?' + urllib.urlencode(query_params))
 
 
+class ListGuestbooks(webapp2.RequestHandler):
+    def get(self):
+        allBooks = get_all_books()
+        self.response.content_type = "application/json"
+        self.response.write(json.dumps([b.to_dict() for b in allBooks]))
+
+
 app = webapp2.WSGIApplication([
     ('/', RenderGuestbookHtml),
     ('/sign', SignGuestbookViaForm),
+    ('/books', ListGuestbooks),
 ], debug=True)
