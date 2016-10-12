@@ -10,7 +10,8 @@ The [guestbook-connector][2] is using that API.
 * [Google Cloud SDK][3] - install it & run `gcloud init`
 
 ## How to run locally?
-`dev_appserver.py .`
+* `dev_appserver.py .`
+* open `http://localhost:8080`
 
 ## How to deploy?
 * `gcloud app deploy app.yaml index.yaml`

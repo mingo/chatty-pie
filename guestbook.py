@@ -14,41 +14,44 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# [START imports]
 import os
 import urllib
 
-from google.appengine.api import users
-from google.appengine.ext import ndb
-
 import jinja2
 import webapp2
+from google.appengine.api import users
+from google.appengine.ext import ndb
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
-# [END imports]
 
 DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
 
 
-# We set a parent key on the 'Greetings' to ensure that they are all
-# in the same entity group. Queries across the single entity group
-# will be consistent. However, the write rate should be limited to
-# ~1/second.
-
-def guestbook_key(guestbook_name=DEFAULT_GUESTBOOK_NAME):
-    """Constructs a Datastore key for a Guestbook entity.
-
-    We use guestbook_name as the key.
-    """
-    return ndb.Key('Guestbook', guestbook_name)
+def get_or_create_book(guestbook_name):
+    guestbook = ndb.Key(Guestbook, guestbook_name).get()
+    if guestbook is None:
+        guestbook = Guestbook(id=guestbook_name, name=guestbook_name)
+        guestbook.put()
+    return guestbook
 
 
-# [START greeting]
+def get_all_greetings_in_book(guestbook_name):
+    guestbook_key = ndb.Key(Guestbook, guestbook_name)
+    return Greeting.query(ancestor=guestbook_key) \
+        .order(-Greeting.date) \
+        .fetch(20)
+
+
+class Guestbook(ndb.Model):
+    """A main model for representing a guestbook."""
+    name = ndb.StringProperty(indexed=False)
+
+
 class Author(ndb.Model):
-    """Sub model for representing an author."""
+    """Sub model for representing an author, in a guestbook."""
     identity = ndb.StringProperty(indexed=False)
     email = ndb.StringProperty(indexed=False)
 
@@ -58,18 +61,12 @@ class Greeting(ndb.Model):
     author = ndb.StructuredProperty(Author)
     content = ndb.StringProperty(indexed=False)
     date = ndb.DateTimeProperty(auto_now_add=True)
-# [END greeting]
 
 
-# [START main_page]
-class MainPage(webapp2.RequestHandler):
-
+class RenderGuestbookHtml(webapp2.RequestHandler):
     def get(self):
-        guestbook_name = self.request.get('guestbook_name',
-                                          DEFAULT_GUESTBOOK_NAME)
-        greetings_query = Greeting.query(
-            ancestor=guestbook_key(guestbook_name)).order(-Greeting.date)
-        greetings = greetings_query.fetch(10)
+        guestbook_name = self.request.get('guestbook_name', DEFAULT_GUESTBOOK_NAME)
+        greetings = get_all_greetings_in_book(guestbook_name)
 
         user = users.get_current_user()
         if user:
@@ -89,38 +86,33 @@ class MainPage(webapp2.RequestHandler):
 
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render(template_values))
-# [END main_page]
 
 
-# [START guestbook]
-class Guestbook(webapp2.RequestHandler):
-
+class SignGuestbookViaForm(webapp2.RequestHandler):
     def post(self):
+        guestbook_name = self.request.get('guestbook_name', DEFAULT_GUESTBOOK_NAME)
+        guestbook = get_or_create_book(guestbook_name)
+
         # We set the same parent key on the 'Greeting' to ensure each
         # Greeting is in the same entity group. Queries across the
         # single entity group will be consistent. However, the write
-        # rate to a single entity group should be limited to
-        # ~1/second.
-        guestbook_name = self.request.get('guestbook_name',
-                                          DEFAULT_GUESTBOOK_NAME)
-        greeting = Greeting(parent=guestbook_key(guestbook_name))
+        # rate to a single entity group should be limited to ~1/second.
+        greeting = Greeting(parent=guestbook.key)
 
         if users.get_current_user():
             greeting.author = Author(
-                    identity=users.get_current_user().user_id(),
-                    email=users.get_current_user().email())
+                parent=guestbook.key,
+                identity=users.get_current_user().user_id(),
+                email=users.get_current_user().email())
 
         greeting.content = self.request.get('content')
         greeting.put()
 
-        query_params = {'guestbook_name': guestbook_name}
+        query_params = {'guestbook_name': guestbook.name}
         self.redirect('/?' + urllib.urlencode(query_params))
-# [END guestbook]
 
 
-# [START app]
 app = webapp2.WSGIApplication([
-    ('/', MainPage),
-    ('/sign', Guestbook),
+    ('/', RenderGuestbookHtml),
+    ('/sign', SignGuestbookViaForm),
 ], debug=True)
-# [END app]
