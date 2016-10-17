@@ -2,23 +2,19 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
-# [START handlers]
 handlers:
 - url: /favicon\.ico
-  static_files: favicon.ico
+  static_files: static/favicon.ico
   upload: favicon\.ico
 
 - url: /bootstrap
-  static_dir: bootstrap
+  static_dir: static/bootstrap
 
 - url: /.*
-  script: guestbook.app
-# [END handlers]
+  script: main.app
 
-# [START libraries]
 libraries:
 - name: webapp2
   version: latest
 - name: jinja2
   version: latest
-# [END libraries]
