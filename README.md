@@ -117,7 +117,7 @@ HTTP/1.1 204 No Content
 * open `http://localhost:8080`
 
 ## How to deploy?
-* `gcloud app deploy app.yaml index.yaml`
+* `gcloud app deploy app.yaml`
 * Stack traces about `NeedIndexError` are transient: they will disappear after 5 minutes or so (until indices are created.)
 
 ## How to test?
