@@ -1,10 +1,14 @@
 # chatty-pie
-The idea is to offer a very simple application offering a REST api to buy chat rooms for their users.
+![a chatty magpie](http://i.imgur.com/Wj2wJev.jpg)
+
+Simple application offering a REST api to buy chat rooms for their users.
 The [chatty-pie-connector][1] is using that API.
 
 This is a Python app that runs on Google App Engine.
 This started as a fork of [Google's own appengine-guestbook-python][2].
 So thank Google for the original code.
+
+Master is deployed here https://operating-attic-146121.appspot.com/
 
 ## Entities
 * `Account`: it owns a bunch of `chatrooms`.
