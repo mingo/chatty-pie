@@ -13,3 +13,11 @@ class Chatroom(ndb.Model):
     account_key = ndb.KeyProperty(indexed=True, kind=Account)
     name = ndb.StringProperty(indexed=False)
     users_with_access = ndb.StringProperty(indexed=False, repeated=True)
+
+
+class Post(ndb.Model):
+    """A main model for representing a post."""
+    chatroom_key = ndb.KeyProperty(indexed=True, kind=Chatroom)
+    date = ndb.DateTimeProperty(auto_now_add=True)
+    user_email = ndb.StringProperty(indexed=False)
+    content = ndb.StringProperty(indexed=False)

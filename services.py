@@ -2,13 +2,13 @@
 
 from google.appengine.ext import ndb
 
-from entities import Account, Chatroom
+from entities import Account, Chatroom, Post
 
 
-def get_account(account_id):
-    account = Account.get_by_id(account_id)
+def get_account(urlsafe_account_id):
+    account = ndb.Key(urlsafe=urlsafe_account_id).get()
     if account is None:
-        raise LookupError("Cannot find an account with id " + account_id)
+        raise LookupError("Cannot find an account with id " + urlsafe_account_id)
     return account
 
 
@@ -49,3 +49,16 @@ def allow_user_access_in_chatroom(urlsafe_chatroom_id, user_email):
     chatroom.users_with_access.append(user_email)
 
     chatroom.put()
+
+
+def get_posts_in(urlsafe_chatroom_id):
+    chatroom_key = ndb.Key(urlsafe=urlsafe_chatroom_id)
+    return Post.query(Post.chatroom_key == chatroom_key).fetch()
+
+
+def create_post(urlsafe_chatroom_id, user_email, content):
+    chatroom_key = ndb.Key(urlsafe=urlsafe_chatroom_id)
+    post = Post(chatroom_key=chatroom_key, user_email=user_email, content=content)
+    post.put()
+
+    return post

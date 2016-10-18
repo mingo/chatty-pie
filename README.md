@@ -107,6 +107,31 @@ HTTP/1.1 204 No Content
 ...
 ````
 
+* GET /rooms/[ROOM_ID]/posts - lists all posts in a given room
+````
+curl localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/posts
+````
+````
+[
+  {
+    "user_email": "user@email.com",
+    "content": "This is my first post <br>",
+    "date": "2016-10-17T20:43:39.367700"
+  },
+  ...
+]
+````
+
+* POST /rooms/[ROOM_ID]/posts - adds a posts to a given room; user must be allowed to.
+````
+curl -X POST --data '{"user_email": "user@email.com", "content": "This is my first post <br>"}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/posts -i
+````
+````
+HTTP/1.1 201 Created
+...
+{"content": "This is my first post <br>", "date": "2016-10-17T20:43:39.367700", "user_email": "user@email.com"}
+````
+
 ## Requirements
 * Python 2.7 - `brew install python`
 * [Google Cloud SDK][3] - install it & run `gcloud init`

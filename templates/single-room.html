@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css">
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="/">chatty-pie</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h1>Welcome to room #{{ room_id }}</h1>
+    {% for post in posts %}
+        <div class="row">
+            {{ post.content }}
+            <br>
+            by {{ post.user_email }} on {{ post.date }}
+        </div>
+        <hr style="border-bottom: dashed">
+    {% endfor %}
+</div>
+</body>
+</html>
+{% endautoescape %}

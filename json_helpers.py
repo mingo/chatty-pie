@@ -44,6 +44,22 @@ def _user_to_dict(user):
     }
 
 
+def json_post(post):
+    return json.dumps(_post_to_dict(post))
+
+
+def json_posts(posts):
+    return json.dumps([_post_to_dict(p) for p in posts])
+
+
+def _post_to_dict(post):
+    return {
+        "date": post.date.isoformat(),
+        "user_email": post.user_email,
+        "content": post.content,
+    }
+
+
 def get_json_value(json_string, key_name):
     try:
         json_dict = json.loads(json_string)
