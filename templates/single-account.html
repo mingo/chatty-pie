@@ -29,7 +29,7 @@
     <h1>Chatrooms in account #{{ account_id }}</h1>
     {% for chatroom in chatrooms %}
         <div class="row">
-            <a href="/rooms/view?id={{ chatroom.key.urlsafe() }}">{{ chatroom.key.urlsafe() }}</a>
+            <a href="/rooms/view?id={{ chatroom.key.urlsafe() }}">{{ chatroom.name }}</a>
         </div>
     {% endfor %}
 </div>

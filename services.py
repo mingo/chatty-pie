@@ -32,6 +32,13 @@ def get_chatrooms_in(urlsafe_account_id):
     return Chatroom.query(Chatroom.account_key == account_key).fetch()
 
 
+def get_chatroom(urlsafe_chatroom_id):
+    chatroom = ndb.Key(urlsafe=urlsafe_chatroom_id).get()
+    if chatroom is None:
+        raise LookupError("Cannot find a room with id " + urlsafe_chatroom_id)
+    return chatroom
+
+
 def create_chatroom(urlsafe_account_id, name):
     account_key = ndb.Key(urlsafe=urlsafe_account_id)
     chatroom = Chatroom(account_key=account_key, name=name)

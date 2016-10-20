@@ -26,10 +26,10 @@
     </div>
 </div>
 <div class="container">
-    <h1>Welcome to room #{{ room_id }}</h1>
+    <h1>Welcome to room #{{ room_name }}</h1>
     {% for post in posts %}
         <div class="row">
-            {{ post.content }}
+            {{ post.content|safe }}
             <br>
             by {{ post.user_email }} on {{ post.date }}
         </div>
