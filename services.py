@@ -38,6 +38,8 @@ def get_chatroom(urlsafe_chatroom_id):
         raise LookupError("Cannot find a room with id " + urlsafe_chatroom_id)
     return chatroom
 
+def delete_chatroom(urlsafe_chatroom_id):
+    ndb.Key(urlsafe=urlsafe_chatroom_id).delete()
 
 def create_chatroom(urlsafe_account_id, name):
     account_key = ndb.Key(urlsafe=urlsafe_account_id)

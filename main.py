@@ -15,6 +15,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/rooms', ChatroomApi, methods=["GET"], handler_method="get_all_rooms"),
     webapp2.Route('/rooms/<chatroom_id>/users', UserAccessApi),
     webapp2.Route('/rooms/<chatroom_id>/posts', PostApi),
+    webapp2.Route('/rooms/<chatroom_id>', ChatroomApi),
     webapp2.Route('/rooms/view', SingleRoom)
 ], debug=True)
 app.error_handlers[400] = handle_400

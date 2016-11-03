@@ -129,7 +129,29 @@ curl -X POST --data '{"user_email": "user@email.com", "content": "This is my fir
 ````
 HTTP/1.1 201 Created
 ...
-{"content": "This is my first post <br>", "date": "2016-10-17T20:43:39.367700", "user_email": "user@email.com"}
+{
+    "content": "This is my first post <br>", 
+    "date": "2016-10-17T20:43:39.367700", 
+    "user_email": "user@email.com"
+}
+````
+
+* DELETE /rooms/[ROOM_ID] - delete a room by id 
+````
+curl -X DELETE localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxIIQ2hhdHJvb20YgICAgIDQuwsM -i
+````
+````
+HTTP/1.1 200 OK
+content-type: application/json; charset=utf-8
+cache-control: no-cache
+Content-Length: 32
+Server: Development/2.0
+Date: Thu, 03 Nov 2016 14:31:22 GMT
+
+{
+    "message": "Delete successful"
+}
+...
 ````
 
 ## Requirements
