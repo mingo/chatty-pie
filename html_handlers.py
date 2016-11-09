@@ -3,7 +3,7 @@ import os
 import jinja2
 import webapp2
 
-from services import get_all_accounts, get_chatrooms_in, get_posts_in, get_chatroom
+from services import get_all_accounts, get_chatrooms_in, get_posts_in, get_chatroom, get_all_chatrooms
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -39,6 +39,18 @@ class SingleAccount(webapp2.RequestHandler):
         }
 
         template = JINJA_ENVIRONMENT.get_template('templates/single-account.html')
+        self.response.write(template.render(template_values))
+
+
+class AllRooms(webapp2.RequestHandler):
+    def get(self):
+        all_rooms = get_all_chatrooms()
+
+        template_values = {
+            "chatrooms": all_rooms
+        }
+
+        template = JINJA_ENVIRONMENT.get_template('templates/all-rooms.html')
         self.response.write(template.render(template_values))
 
 
