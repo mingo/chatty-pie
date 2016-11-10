@@ -50,17 +50,21 @@ class ChatroomApi(JsonApiHandler):
         delete_chatroom(chatroom_id)
         write_json_response(self.response, 200, "{\"message\": \"Delete successful\"}")
 
+
 class UserAccessApi(JsonApiHandler):
     def get(self, chatroom_id):
         all_users_allowed_in_chatroom = get_all_users_allowed_in(chatroom_id)
+
         write_json_response(self.response, 200, json_users(all_users_allowed_in_chatroom))
 
     def put(self, chatroom_id):
-        user_email = self.get_mandatory_json_value("email")
+        email = self.get_mandatory_json_value("email")
+        can_see_all_history = self.get_mandatory_json_value("canSeeAllHistory")
 
-        allow_user_access_in_chatroom(chatroom_id, user_email)
+        allow_user_access_in_chatroom(chatroom_id, email, can_see_all_history)
 
         self.response.status = 204
+
 
 class PostApi(JsonApiHandler):
     def get(self, chatroom_id):

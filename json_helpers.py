@@ -40,7 +40,8 @@ def json_users(users):
 
 def _user_to_dict(user):
     return {
-        "email": user
+        "email": user.email,
+        "canSeeAllHistory": user.can_see_all_history
     }
 
 

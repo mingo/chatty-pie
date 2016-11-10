@@ -8,11 +8,17 @@ class Account(ndb.Model):
     max_allowed_rooms = ndb.IntegerProperty(indexed=False)
 
 
+class ChatroomUser(ndb.Model):
+    """A sub model for representing a user in a chatroom."""
+    email = ndb.StringProperty(indexed=False)
+    can_see_all_history = ndb.BooleanProperty(indexed=False)
+
+
 class Chatroom(ndb.Model):
     """A main model for representing a chatroom."""
     account_key = ndb.KeyProperty(indexed=True, kind=Account)
     name = ndb.StringProperty(indexed=False)
-    users_with_access = ndb.StringProperty(indexed=False, repeated=True)
+    users_with_access = ndb.StructuredProperty(ChatroomUser, repeated=True)
 
 
 class Post(ndb.Model):

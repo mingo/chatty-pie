@@ -2,7 +2,7 @@
 
 from google.appengine.ext import ndb
 
-from entities import Account, Chatroom, Post
+from entities import Account, Chatroom, Post, ChatroomUser
 
 
 def get_account(urlsafe_account_id):
@@ -38,8 +38,10 @@ def get_chatroom(urlsafe_chatroom_id):
         raise LookupError("Cannot find a room with id " + urlsafe_chatroom_id)
     return chatroom
 
+
 def delete_chatroom(urlsafe_chatroom_id):
     ndb.Key(urlsafe=urlsafe_chatroom_id).delete()
+
 
 def create_chatroom(urlsafe_account_id, name):
     account_key = ndb.Key(urlsafe=urlsafe_account_id)
@@ -53,9 +55,9 @@ def get_all_users_allowed_in(urlsafe_chatroom_id):
     return ndb.Key(urlsafe=urlsafe_chatroom_id).get().users_with_access
 
 
-def allow_user_access_in_chatroom(urlsafe_chatroom_id, user_email):
+def allow_user_access_in_chatroom(urlsafe_chatroom_id, user_email, can_see_all_history):
     chatroom = ndb.Key(urlsafe=urlsafe_chatroom_id).get()
-    chatroom.users_with_access.append(user_email)
+    chatroom.users_with_access.append(ChatroomUser(email=user_email, can_see_all_history=can_see_all_history))
 
     chatroom.put()
 

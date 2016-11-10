@@ -8,13 +8,13 @@ This is a Python app that runs on Google App Engine.
 This started as a fork of [Google's own appengine-guestbook-python][2].
 So thank Google for the original code.
 
-Master is deployed here https://operating-attic-146121.appspot.com/
+Master is deployed at https://operating-attic-146121.appspot.com/
 
 ## Entities
 * `Account`: it owns a bunch of `chatrooms`.
 * `Chatroom`: contains a bunch of `posts` made by `users`. Has a name and is owned by an `Account`.
 * `Post`: added to a `chatroom` by a `user`. Has content and a timestamp.
-* `User`: the one making `posts` to `chatrooms`. For now, this is just an email. Can have access to >1 rooms.
+* `User`: the one making `posts` to `chatrooms`. Can have access to >1 rooms.
 
 ## Endpoints
 * GET /accounts - lists all accounts
@@ -92,15 +92,16 @@ curl localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users
 ````
 [
   {
-    "email": "someuser@some.com"
+    "email": "someuser@some.com",
+    "canSeeAllHistory": false
   },
   ...
 ]
 ````
 
-* PUT /rooms/[ROOM_ID]/users - grants access to a user for a given room
+* PUT /rooms/[ROOM_ID]/users - grants access to a user for a given room and determines if user can see all of the room's history.
 ````
-curl -X PUT --data '{"email": "user@email.com"}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users -i
+curl -X PUT --data '{"email": "user@email.com", "canSeeAllHistory": true}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users -i
 ````
 ````
 HTTP/1.1 204 No Content
@@ -151,12 +152,14 @@ Date: Thu, 03 Nov 2016 14:31:22 GMT
 {
     "message": "Delete successful"
 }
-...
 ````
 
 ## Requirements
 * Python 2.7 - `brew install python`
 * [Google Cloud SDK][3] - install it & run `gcloud init`
+
+## How to develop?
+* use [pycharm][4] or any text editor
 
 ## How to run locally?
 * have the requirements: `python` & `gcloud`.
@@ -168,7 +171,7 @@ Date: Thu, 03 Nov 2016 14:31:22 GMT
 * Stack traces about `NeedIndexError` are transient: they will disappear after 5 minutes or so (until indices are created.)
 
 ## How to test?
-TODO!
+* There are no tests for now. The shame is on us.
 
 ## License
 Most of the code is Copyright 2016 Google Inc.
@@ -177,3 +180,4 @@ Everything is under the Apache license.
 [1]: https://github.com/AppDirect/chatty-pie-connector
 [2]: https://github.com/GoogleCloudPlatform/appengine-guestbook-python
 [3]: https://cloud.google.com/sdk/docs/
+[4]: https://www.jetbrains.com/pycharm/nextversion/
