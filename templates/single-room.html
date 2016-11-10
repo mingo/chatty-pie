@@ -8,6 +8,24 @@
         body {
             padding-top: 70px;
         }
+
+        .message-bubble {
+            padding: 10px 0px 10px 0px;
+        }
+
+        .message-bubble:nth-child(even) {
+            background-color: #F5F5F5;
+        }
+
+        .message-bubble > * {
+            padding-left: 10px;
+        }
+
+        .panel-heading {
+            font-size: xx-large;
+            background-color: #1759a7 !important;
+            color: white !important;
+        }
     </style>
 </head>
 <body>
@@ -27,29 +45,33 @@
 </nav>
 
 <div class="container">
-    <h1>Welcome to room #{{ room_name }}</h1>
     <div class="row">
+
+        {# This chatroom style comes from http://bootsnipp.com/snippets/40W9n #}
         <div class="col-md-8" id="posts">
-            <h2>Posts</h2>
-            {% if not posts %}
-                <div class="alert alert-info">
-                    <strong>Welcome!</strong> There are no posts yet. Add some with:
-                    <pre>
+            <div class="panel panel-default">
+                <div class="panel-heading">#{{ room_name }}</div>
+                <div class="panel-body">
+                    {% if not posts %}
+                        <div class="alert alert-info">
+                            <strong>Welcome!</strong> There are no posts yet. Add some with:
+                            <pre>
 curl -X POST --data\
     '{"user_email": "user@email.com", "content": "my post"}'\
   [host]/rooms/{{ room_id }}/posts -i</pre>
-                </div>
-            {% endif %}
+                        </div>
+                    {% endif %}
 
-            {% for post in posts %}
-                <div class="row">
-                    {{ post.content|safe }}
-                    <br>
-                    by {{ post.user_email }} on {{ post.date }}
+                    {% for post in posts %}
+                        <div class="row message-bubble">
+                            <p class="text-muted">{{ post.user_email }} on {{ post.date }}</p>
+                            <span>{{ post.content|safe }}</span>
+                        </div>
+                    {% endfor %}
                 </div>
-                <hr style="border-bottom: dashed">
-            {% endfor %}
+            </div>
         </div>
+
         <div class="col-md-4" id="users-that-can-post">
             <h2>Users that can post</h2>
             {% if not users %}
