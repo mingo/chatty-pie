@@ -3,7 +3,6 @@
 <html>
 <head>
     <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css">
     <style type="text/css">
         body {
             padding-top: 40px;
@@ -27,12 +26,15 @@
 </div>
 <div class="container">
     <h1>Chatrooms in account #{{ account_id }}</h1>
-    {% for chatroom in chatrooms %}
-        <div class="row">
-            <a href="/rooms/view?id={{ chatroom.key.urlsafe() }}">{{ chatroom.name }}</a>
-        </div>
-    {% endfor %}
+    <table class="table table-striped">
+        {% for chatroom in chatrooms %}
+            <tr class="row">
+                <td><a href="/rooms/view?id={{ chatroom.key.urlsafe() }}">{{ chatroom.name }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
 </div>
+
 </body>
 </html>
 {% endautoescape %}
