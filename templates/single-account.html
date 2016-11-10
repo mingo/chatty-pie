@@ -12,20 +12,27 @@
     </style>
 </head>
 <body>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
             <a class="brand" href="/">chatty-pie</a>
+            <ul class="nav">
+                <li><a href="/accounts/list">All accounts</a></li>
+                <li><a href="/rooms/list">All rooms</a></li>
+            </ul>
         </div>
     </div>
 </div>
+
 <div class="container">
     <h1>Chatrooms in account #{{ account_id }}</h1>
+    {% if not chatrooms %}
+        <div class="row alert alert-info">
+            No rooms exist for this account! Create some with:
+            <pre>curl -X PUT --data '{"name": "my-room"}' [host]/accounts/{{ account_id }}/rooms -i</pre>
+        </div>
+    {% endif %}
     <table class="table table-striped">
         {% for chatroom in chatrooms %}
             <tr class="row">
