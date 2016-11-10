@@ -3,7 +3,8 @@ import os
 import jinja2
 import webapp2
 
-from services import get_all_accounts, get_chatrooms_in, get_posts_in, get_chatroom, get_all_chatrooms
+from services import get_all_accounts, get_chatrooms_in, get_posts_in, get_chatroom, get_all_chatrooms, \
+    get_all_users_allowed_in
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -59,10 +60,13 @@ class SingleRoom(webapp2.RequestHandler):
         room_id = self.request.get('id')
         room = get_chatroom(room_id)
         posts = get_posts_in(room_id)
+        users = get_all_users_allowed_in(room_id)
 
         template_values = {
             "room_name": room.name,
-            "posts": posts
+            "room_id": room_id,
+            "posts": posts,
+            "users": users
         }
 
         template = JINJA_ENVIRONMENT.get_template('templates/single-room.html')

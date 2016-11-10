@@ -3,7 +3,6 @@
 <html>
 <head>
     <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css">
     <style type="text/css">
         body {
             padding-top: 40px;
@@ -27,14 +26,43 @@
 </div>
 <div class="container">
     <h1>Welcome to room #{{ room_name }}</h1>
-    {% for post in posts %}
-        <div class="row">
-            {{ post.content|safe }}
-            <br>
-            by {{ post.user_email }} on {{ post.date }}
+    <div class="row">
+        <div class="span8" id="posts">
+            <h2>Posts</h2>
+            {% if not posts %}
+                <div class="alert alert-info">
+                    <strong>Welcome!</strong> There are no posts yet. Add some with
+                    <pre>
+curl -X POST --data\
+    '{"user_email": "user@email.com", "content": "my post"}'\
+  [host]/rooms/{{ room_id }}/posts -i</pre>
+                </div>
+            {% endif %}
+            {% for post in posts %}
+                <div class="row">
+                    {{ post.content|safe }}
+                    <br>
+                    by {{ post.user_email }} on {{ post.date }}
+                </div>
+                <hr style="border-bottom: dashed">
+            {% endfor %}
         </div>
-        <hr style="border-bottom: dashed">
-    {% endfor %}
+        <div class="span4" id="users-that-can-post">
+            <h2>Users that can post</h2>
+            <table class="table table-striped">
+                {% if not users %}
+                    <tr>
+                        <td>So lonely here :(</td>
+                    </tr>
+                {% endif %}
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 </div>
 </body>
 </html>
