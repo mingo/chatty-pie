@@ -2,33 +2,34 @@
 {% autoescape true %}
 <html>
 <head>
-    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style type="text/css">
         body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
+            padding-top: 70px;
         }
     </style>
 </head>
 <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="brand" href="/">chatty-pie</a>
-            <ul class="nav">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">chatty-pie</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
                 <li><a href="/accounts/list">All accounts</a></li>
                 <li><a href="/rooms/list">All rooms</a></li>
             </ul>
         </div>
     </div>
-</div>
+</nav>
 
 <div class="container">
     <h1>Welcome to room #{{ room_name }}</h1>
     <div class="row">
-        <div class="span8" id="posts">
+        <div class="col-md-8" id="posts">
             <h2>Posts</h2>
             {% if not posts %}
                 <div class="alert alert-info">
@@ -39,6 +40,7 @@ curl -X POST --data\
   [host]/rooms/{{ room_id }}/posts -i</pre>
                 </div>
             {% endif %}
+
             {% for post in posts %}
                 <div class="row">
                     {{ post.content|safe }}
@@ -48,10 +50,10 @@ curl -X POST --data\
                 <hr style="border-bottom: dashed">
             {% endfor %}
         </div>
-        <div class="span4" id="users-that-can-post">
+        <div class="col-md-4" id="users-that-can-post">
             <h2>Users that can post</h2>
             {% if not users %}
-                <div class="alert">
+                <div class="alert alert-warning">
                     No users are allowed to post to this chatroom yet. Assign some with:
                     <pre>curl -X PUT --data\
 '{"email": "x@y.ca", "canSeeAllHistory": true}'\
