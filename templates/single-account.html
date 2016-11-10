@@ -2,28 +2,29 @@
 {% autoescape true %}
 <html>
 <head>
-    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style type="text/css">
         body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
+            padding-top: 70px;
         }
     </style>
 </head>
 <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="brand" href="/">chatty-pie</a>
-            <ul class="nav">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">chatty-pie</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
                 <li><a href="/accounts/list">All accounts</a></li>
                 <li><a href="/rooms/list">All rooms</a></li>
             </ul>
         </div>
     </div>
-</div>
+</nav>
 
 <div class="container">
     <h1>Chatrooms in account #{{ account_id }}</h1>
