@@ -3,7 +3,7 @@
 import webapp2
 
 from api_handlers import AccountApi, ChatroomApi, UserAccessApi, PostApi
-from error_handlers import handle_400
+from error_handlers import handle_400, handle_500
 from html_handlers import RedirectToAccounts, AllAccounts, SingleAccount, SingleRoom, AllRooms
 
 app = webapp2.WSGIApplication([
@@ -20,3 +20,4 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/rooms/<chatroom_id>', ChatroomApi)
 ], debug=True)
 app.error_handlers[400] = handle_400
+app.error_handlers[500] = handle_500

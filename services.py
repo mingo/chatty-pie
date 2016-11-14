@@ -28,8 +28,8 @@ def get_all_chatrooms():
 
 
 def get_chatrooms_in(urlsafe_account_id):
-    account_key = ndb.Key(urlsafe=urlsafe_account_id)
-    return Chatroom.query(Chatroom.account_key == account_key).fetch()
+    account = get_account(urlsafe_account_id)
+    return Chatroom.query(Chatroom.account_key == account.key).fetch()
 
 
 def get_chatroom(urlsafe_chatroom_id):
@@ -40,36 +40,36 @@ def get_chatroom(urlsafe_chatroom_id):
 
 
 def delete_chatroom(urlsafe_chatroom_id):
-    ndb.Key(urlsafe=urlsafe_chatroom_id).delete()
+    get_chatroom(urlsafe_chatroom_id).key.delete()
 
 
 def create_chatroom(urlsafe_account_id, name):
-    account_key = ndb.Key(urlsafe=urlsafe_account_id)
-    chatroom = Chatroom(account_key=account_key, name=name)
+    account = get_account(urlsafe_account_id)
+    chatroom = Chatroom(account_key=account.key, name=name)
     chatroom.put()
 
     return chatroom
 
 
 def get_all_users_allowed_in(urlsafe_chatroom_id):
-    return ndb.Key(urlsafe=urlsafe_chatroom_id).get().users_with_access
+    return get_chatroom(urlsafe_chatroom_id).users_with_access
 
 
 def allow_user_access_in_chatroom(urlsafe_chatroom_id, user_email, can_see_all_history):
-    chatroom = ndb.Key(urlsafe=urlsafe_chatroom_id).get()
+    chatroom = get_chatroom(urlsafe_chatroom_id)
     chatroom.users_with_access.append(ChatroomUser(email=user_email, can_see_all_history=can_see_all_history))
 
     chatroom.put()
 
 
 def get_posts_in(urlsafe_chatroom_id):
-    chatroom_key = ndb.Key(urlsafe=urlsafe_chatroom_id)
-    return Post.query(Post.chatroom_key == chatroom_key).fetch()
+    chatroom = get_chatroom(urlsafe_chatroom_id)
+    return Post.query(Post.chatroom_key == chatroom.key).fetch()
 
 
 def create_post(urlsafe_chatroom_id, user_email, content):
-    chatroom_key = ndb.Key(urlsafe=urlsafe_chatroom_id)
-    post = Post(chatroom_key=chatroom_key, user_email=user_email, content=content)
+    chatroom = get_chatroom(urlsafe_chatroom_id)
+    post = Post(chatroom_key=chatroom.key, user_email=user_email, content=content)
     post.put()
 
     return post
