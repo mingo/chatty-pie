@@ -7,7 +7,7 @@ from entities import Account, Chatroom, Post, ChatroomUser
 
 def get_account(urlsafe_account_id):
     account = ndb.Key(urlsafe=urlsafe_account_id).get()
-    if account is None:
+    if account is None or not isinstance(account, Account):
         raise LookupError("Cannot find an account with id " + urlsafe_account_id)
     return account
 
@@ -34,7 +34,7 @@ def get_chatrooms_in(urlsafe_account_id):
 
 def get_chatroom(urlsafe_chatroom_id):
     chatroom = ndb.Key(urlsafe=urlsafe_chatroom_id).get()
-    if chatroom is None:
+    if chatroom is None or not isinstance(chatroom, Chatroom):
         raise LookupError("Cannot find a room with id " + urlsafe_chatroom_id)
     return chatroom
 
@@ -57,7 +57,12 @@ def get_all_users_allowed_in(urlsafe_chatroom_id):
 
 def allow_user_access_in_chatroom(urlsafe_chatroom_id, user_email, can_see_all_history):
     chatroom = get_chatroom(urlsafe_chatroom_id)
-    chatroom.users_with_access.append(ChatroomUser(email=user_email, can_see_all_history=can_see_all_history))
+    users_with_access = chatroom.users_with_access
+    existing_users = filter(lambda user: user.email == user_email, users_with_access)[:1]
+    if existing_users:
+        existing_users[0].can_see_all_history = can_see_all_history
+    else:
+        users_with_access.append(ChatroomUser(email=user_email, can_see_all_history=can_see_all_history))
 
     chatroom.put()
 
