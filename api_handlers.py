@@ -20,6 +20,8 @@ class JsonApiHandler(webapp2.RequestHandler):
     def handle_exception(self, exception, debug_mode):
         if isinstance(exception, ProtocolBufferDecodeError):
             self.abort(400, "invalid entity key")
+        elif isinstance(exception, IllegalChatroomTypeException):     
+            self.abort(400, "{ \"error\": \"A chatroom type must be either 'trial' or 'standard'\" }")
         else:
             self.abort(500, exception)
 
@@ -54,11 +56,8 @@ class ChatroomApi(JsonApiHandler):
         chatroom_name = self.get_mandatory_json_value("name")
         chatroom_type = self.get_optional_json_value("type")
         chatroom_type = "standard" if chatroom_type is None else chatroom_type
-        try:
-            chatroom = create_chatroom(account_id, chatroom_name, chatroom_type)
-            write_json_response(self.response, 201, json_chatroom(chatroom))
-        except IllegalChatroomTypeException:
-            write_json_response(self.response, 400, "{ \"error\": \"A chatroom type must be either 'trial' or 'standard'\" }")
+        chatroom = create_chatroom(account_id, chatroom_name, chatroom_type)
+        write_json_response(self.response, 201, json_chatroom(chatroom))
 
     def delete(self, chatroom_id):
         delete_chatroom(chatroom_id)
@@ -66,11 +65,8 @@ class ChatroomApi(JsonApiHandler):
 
     def put(self, chatroom_id):
         chatroom_type = self.get_mandatory_json_value("type")
-        try: 
-            update_type_of(chatroom_id, chatroom_type)
-            write_json_response(self.response, 201, "{\"message\": \"Update successful\"}") 
-        except IllegalChatroomTypeException:
-            write_json_response(self.response, 400, "{ \"error\": \"A chatroom type must be either 'trial' or 'standard'\" }")
+        update_type_of(chatroom_id, chatroom_type)
+        write_json_response(self.response, 201, "{\"message\": \"Update successful\"}") 
 
 class UserAccessApi(JsonApiHandler):
     def get(self, chatroom_id):
