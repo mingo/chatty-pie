@@ -7,7 +7,8 @@ from json_helpers import json_account, get_json_value, json_accounts, json_chatr
     json_posts, json_post
 from services import create_account, get_all_accounts, create_chatroom, delete_chatroom, get_all_chatrooms, \
     allow_user_access_in_chatroom, \
-    get_chatrooms_in, get_all_users_allowed_in, get_posts_in, create_post, IllegalChatroomTypeException
+    get_chatrooms_in, get_all_users_allowed_in, get_posts_in, create_post, IllegalChatroomTypeException, \
+    update_type_of
 
 class JsonApiHandler(webapp2.RequestHandler):
     def get_mandatory_json_value(self, key_name):
@@ -62,6 +63,13 @@ class ChatroomApi(JsonApiHandler):
     def delete(self, chatroom_id):
         delete_chatroom(chatroom_id)
         write_json_response(self.response, 200, "{\"message\": \"Delete successful\"}")
+
+    def put(self, chatroom_id):
+        chatroom_type = self.get_mandatory_json_value("type")
+        try: 
+            update_type_of(chatroom_id, chatroom_type)
+        except IllegalChatroomTypeException:
+            write_json_response(self.response, 400, "{ \"error\": \"A chatroom type must be either 'trial' or 'standard'\" }")
 
 class UserAccessApi(JsonApiHandler):
     def get(self, chatroom_id):
