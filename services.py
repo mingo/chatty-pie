@@ -38,12 +38,14 @@ def get_chatroom(urlsafe_chatroom_id):
         raise LookupError("Cannot find a room with id " + urlsafe_chatroom_id)
     return chatroom
 
+
 def delete_chatroom(urlsafe_chatroom_id):
     get_chatroom(urlsafe_chatroom_id).key.delete()
 
 
 class IllegalChatroomTypeException(Exception):
     pass
+
 
 def create_chatroom(urlsafe_account_id, name, type):
     account = get_account(urlsafe_account_id)
@@ -75,6 +77,7 @@ def get_posts_in(urlsafe_chatroom_id):
     chatroom = get_chatroom(urlsafe_chatroom_id)
     return Post.query(Post.chatroom_key == chatroom.key).fetch()
 
+
 def update_type_of(urlsafe_chatroom_id, new_type):
     if new_type != "standard" and new_type != "trial":
         raise IllegalChatroomTypeException
@@ -83,6 +86,7 @@ def update_type_of(urlsafe_chatroom_id, new_type):
     chatroom.put()
 
     return chatroom
+
 
 def create_post(urlsafe_chatroom_id, user_email, content):
     chatroom = get_chatroom(urlsafe_chatroom_id)
