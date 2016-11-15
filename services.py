@@ -42,8 +42,13 @@ def delete_chatroom(urlsafe_chatroom_id):
     get_chatroom(urlsafe_chatroom_id).key.delete()
 
 
+class IllegalChatroomTypeException(Exception):
+    pass
+
 def create_chatroom(urlsafe_account_id, name, type):
     account = get_account(urlsafe_account_id)
+    if type != "standard" and type != "trial":
+        raise IllegalChatroomTypeException
     chatroom = Chatroom(account_key=account.key, name=name, type=type)
     chatroom.put()
 
