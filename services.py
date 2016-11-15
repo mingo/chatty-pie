@@ -38,14 +38,13 @@ def get_chatroom(urlsafe_chatroom_id):
         raise LookupError("Cannot find a room with id " + urlsafe_chatroom_id)
     return chatroom
 
-
 def delete_chatroom(urlsafe_chatroom_id):
     get_chatroom(urlsafe_chatroom_id).key.delete()
 
 
-def create_chatroom(urlsafe_account_id, name):
+def create_chatroom(urlsafe_account_id, name, type):
     account = get_account(urlsafe_account_id)
-    chatroom = Chatroom(account_key=account.key, name=name)
+    chatroom = Chatroom(account_key=account.key, name=name, type=type)
     chatroom.put()
 
     return chatroom

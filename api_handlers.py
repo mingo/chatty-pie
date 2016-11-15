@@ -48,8 +48,8 @@ class ChatroomApi(JsonApiHandler):
 
     def post(self, account_id):
         chatroom_name = self.get_mandatory_json_value("name")
-
-        chatroom = create_chatroom(account_id, chatroom_name)
+        chatroom_type = self.get_mandatory_json_value("type")
+        chatroom = create_chatroom(account_id, chatroom_name, chatroom_type)
 
         write_json_response(self.response, 201, json_chatroom(chatroom))
 

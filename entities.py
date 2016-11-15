@@ -18,6 +18,7 @@ class Chatroom(ndb.Model):
     """A main model for representing a chatroom."""
     account_key = ndb.KeyProperty(indexed=True, kind=Account)
     name = ndb.StringProperty(indexed=False)
+    type = ndb.StringProperty(indexed=False)
     users_with_access = ndb.StructuredProperty(ChatroomUser, repeated=True)
 
 
