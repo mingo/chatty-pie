@@ -68,6 +68,7 @@ class ChatroomApi(JsonApiHandler):
         chatroom_type = self.get_mandatory_json_value("type")
         try: 
             update_type_of(chatroom_id, chatroom_type)
+            write_json_response(self.response, 201, "{\"message\": \"Update successful\"}") 
         except IllegalChatroomTypeException:
             write_json_response(self.response, 400, "{ \"error\": \"A chatroom type must be either 'trial' or 'standard'\" }")
 
