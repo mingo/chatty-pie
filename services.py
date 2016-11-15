@@ -78,7 +78,7 @@ def get_posts_in(urlsafe_chatroom_id):
 def update_type_of(urlsafe_chatroom_id, new_type):
     if new_type != "standard" and new_type != "trial":
         raise IllegalChatroomTypeException
-    chatroom = ndb.Key(urlsafe=urlsafe_chatroom_id).get()
+    chatroom = get_chatroom(urlsafe_chatroom_id)
     chatroom.type = new_type
     chatroom.put()
 
