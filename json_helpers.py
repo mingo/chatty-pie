@@ -30,7 +30,8 @@ def _chatroom_to_dict(chatroom):
     return {
         "id": chatroom.key.urlsafe(),
         "account_id": chatroom.account_key.urlsafe(),
-        "name": chatroom.name
+        "name": chatroom.name,
+        "type": chatroom.type
     }
 
 
