@@ -2,6 +2,8 @@
 
 from google.appengine.ext import ndb
 
+from entities_validators import chatroom_type_validator
+
 
 class Account(ndb.Model):
     """A main model for representing an account, owning chatrooms."""
@@ -18,7 +20,7 @@ class Chatroom(ndb.Model):
     """A main model for representing a chatroom."""
     account_key = ndb.KeyProperty(indexed=True, kind=Account)
     name = ndb.StringProperty(indexed=False)
-    type = ndb.StringProperty(indexed=False)
+    type = ndb.StringProperty(indexed=False, validator=chatroom_type_validator)
     users_with_access = ndb.StructuredProperty(ChatroomUser, repeated=True)
 
 

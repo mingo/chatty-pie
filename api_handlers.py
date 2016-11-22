@@ -3,11 +3,12 @@
 import webapp2
 from google.net.proto.ProtocolBuffer import ProtocolBufferDecodeError
 
+from entities_validators import IllegalChatroomTypeException
 from json_helpers import json_account, get_json_value, json_accounts, json_chatroom, json_chatrooms, json_users, \
     json_posts, json_post
 from services import create_account, get_all_accounts, create_chatroom, delete_chatroom, get_all_chatrooms, \
     allow_user_access_in_chatroom, \
-    get_chatrooms_in, get_all_users_allowed_in, get_posts_in, create_post, IllegalChatroomTypeException, \
+    get_chatrooms_in, get_all_users_allowed_in, get_posts_in, create_post, \
     update_type_of
 
 
@@ -20,7 +21,7 @@ class JsonApiHandler(webapp2.RequestHandler):
 
     def handle_exception(self, exception, debug_mode):
         if isinstance(exception, ProtocolBufferDecodeError):
-            self.abort(400, "invalid entity key")
+            self.abort(400, "{ \"error\": \"invalid entity key\" }")
         elif isinstance(exception, IllegalChatroomTypeException):
             self.abort(400, "{ \"error\": \"A chatroom type must be either 'trial' or 'standard'\" }")
         else:

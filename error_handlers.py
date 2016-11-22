@@ -2,6 +2,7 @@
 
 
 def handle_400(request, response, exception):
+    response.headers["Content-Type"] = "application/json; charset=utf-8"
     response.write(exception)
     response.set_status(400)
     return
