@@ -43,9 +43,9 @@ def delete_chatroom(urlsafe_chatroom_id):
     get_chatroom(urlsafe_chatroom_id).key.delete()
 
 
-def create_chatroom(urlsafe_account_id, name, type):
+def create_chatroom(urlsafe_account_id, name, type, status):
     account = get_account(urlsafe_account_id)
-    chatroom = Chatroom(account_key=account.key, name=name, type=type)
+    chatroom = Chatroom(account_key=account.key, name=name, type=type, status=status)
     chatroom.put()
 
     return chatroom

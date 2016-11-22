@@ -3,7 +3,7 @@
 import webapp2
 from google.net.proto.ProtocolBuffer import ProtocolBufferDecodeError
 
-from entities_validators import IllegalChatroomTypeException
+from entities_validators import IllegalChatroomTypeException, IllegalChatroomStatusException
 from json_helpers import json_account, get_json_value, json_accounts, json_chatroom, json_chatrooms, json_users, \
     json_posts, json_post
 from services import create_account, get_all_accounts, create_chatroom, delete_chatroom, get_all_chatrooms, \
@@ -24,6 +24,8 @@ class JsonApiHandler(webapp2.RequestHandler):
             self.abort(400, "{ \"error\": \"invalid entity key\" }")
         elif isinstance(exception, IllegalChatroomTypeException):
             self.abort(400, "{ \"error\": \"A chatroom type must be either 'trial' or 'standard'\" }")
+        elif isinstance(exception, IllegalChatroomStatusException):
+            self.abort(400, "{ \"error\": \"A chatroom status must be either 'active' or 'suspended'\" }")
         else:
             self.abort(500, exception)
 
@@ -58,7 +60,9 @@ class ChatroomApi(JsonApiHandler):
         chatroom_name = self.get_mandatory_json_value("name")
         chatroom_type = self.get_optional_json_value("type")
         chatroom_type = "standard" if chatroom_type is None else chatroom_type
-        chatroom = create_chatroom(account_id, chatroom_name, chatroom_type)
+        chatroom_status = self.get_optional_json_value("status")
+        chatroom_status = "active" if chatroom_status is None else chatroom_status
+        chatroom = create_chatroom(account_id, chatroom_name, chatroom_type, chatroom_status)
         write_json_response(self.response, 201, json_chatroom(chatroom))
 
     def delete(self, chatroom_id):
