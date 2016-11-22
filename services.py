@@ -51,6 +51,15 @@ def create_chatroom(urlsafe_account_id, name, type, status):
     return chatroom
 
 
+def update_chatroom(urlsafe_chatroom_id, new_type, new_status):
+    chatroom = get_chatroom(urlsafe_chatroom_id)
+    chatroom.type = new_type
+    chatroom.status = new_status
+    chatroom.put()
+
+    return chatroom
+
+
 def get_all_users_allowed_in(urlsafe_chatroom_id):
     return get_chatroom(urlsafe_chatroom_id).users_with_access
 
@@ -70,14 +79,6 @@ def allow_user_access_in_chatroom(urlsafe_chatroom_id, user_email, can_see_all_h
 def get_posts_in(urlsafe_chatroom_id):
     chatroom = get_chatroom(urlsafe_chatroom_id)
     return Post.query(Post.chatroom_key == chatroom.key).fetch()
-
-
-def update_type_of(urlsafe_chatroom_id, new_type):
-    chatroom = get_chatroom(urlsafe_chatroom_id)
-    chatroom.type = new_type
-    chatroom.put()
-
-    return chatroom
 
 
 def create_post(urlsafe_chatroom_id, user_email, content):
