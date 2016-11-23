@@ -85,7 +85,7 @@ def get_posts_in(urlsafe_chatroom_id):
 
 def create_post(urlsafe_chatroom_id, user_email, content):
     chatroom = get_chatroom(urlsafe_chatroom_id)
-    if chatroom.status is not 'active':
+    if chatroom.status != 'active':
         raise ValueError("Posts cannot be published while chatroom is suspended.")
     post = Post(chatroom_key=chatroom.key, user_email=user_email, content=content)
     post.put()
