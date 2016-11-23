@@ -72,7 +72,7 @@ class ChatroomApi(JsonApiHandler):
     def put(self, chatroom_id):
         chatroom_type = self.get_mandatory_json_value("type")
         chatroom_status = self.get_mandatory_json_value("status")
-        update_chatroom(chatroom_id, chatroom_type)
+        update_chatroom(chatroom_id, chatroom_type, chatroom_status)
         write_json_response(self.response, 201, "{\"message\": \"Update successful\"}")
 
 
