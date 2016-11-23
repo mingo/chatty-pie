@@ -65,6 +65,8 @@ class SingleRoom(webapp2.RequestHandler):
         template_values = {
             "room_name": room.name,
             "room_id": room_id,
+            "room_status": room.status,
+            "room_type": room.type,
             "posts": posts,
             "users": users
         }

@@ -31,7 +31,10 @@
     <table class="table table-striped">
         {% for chatroom in chatrooms %}
             <tr>
-                <td><a href="/rooms/view?id={{ chatroom.key.urlsafe() }}">{{ chatroom.name }}</a></td>
+                <td><a href="/rooms/view?id={{ chatroom.key.urlsafe() }}">{{ chatroom.name }}</a>
+                    <span title="status of this room"
+                          class="label label-{{ "success" if chatroom.status == "active" else "danger" }}">{{ chatroom.status }}</span>
+                </td>
             </tr>
         {% endfor %}
     </table>
