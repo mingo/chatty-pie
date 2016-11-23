@@ -66,8 +66,8 @@ class ChatroomApi(JsonApiHandler):
         write_json_response(self.response, 201, json_chatroom(chatroom))
 
     def put(self, chatroom_id):
-        chatroom_type = self.get_mandatory_json_value("type")
-        chatroom_status = self.get_mandatory_json_value("status")
+        chatroom_type = self.get_optional_json_value("type")
+        chatroom_status = self.get_optional_json_value("status")
         update_chatroom(chatroom_id, chatroom_type, chatroom_status)
 
         self.response.status = 204

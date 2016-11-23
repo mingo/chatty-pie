@@ -53,8 +53,10 @@ def create_chatroom(urlsafe_account_id, name, type, status):
 
 def update_chatroom(urlsafe_chatroom_id, new_type, new_status):
     chatroom = get_chatroom(urlsafe_chatroom_id)
-    chatroom.type = new_type
-    chatroom.status = new_status
+    if new_type is not None:
+        chatroom.type = new_type
+    if new_status is not None:
+        chatroom.status = new_status
     chatroom.put()
 
     return chatroom
