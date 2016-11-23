@@ -65,15 +65,16 @@ class ChatroomApi(JsonApiHandler):
         chatroom = create_chatroom(account_id, chatroom_name, chatroom_type, chatroom_status)
         write_json_response(self.response, 201, json_chatroom(chatroom))
 
-    def delete(self, chatroom_id):
-        delete_chatroom(chatroom_id)
-        write_json_response(self.response, 200, "{\"message\": \"Delete successful\"}")
-
     def put(self, chatroom_id):
         chatroom_type = self.get_mandatory_json_value("type")
         chatroom_status = self.get_mandatory_json_value("status")
         update_chatroom(chatroom_id, chatroom_type, chatroom_status)
-        write_json_response(self.response, 201, "{\"message\": \"Update successful\"}")
+
+        self.response.status = 204
+
+    def delete(self, chatroom_id):
+        delete_chatroom(chatroom_id)
+        write_json_response(self.response, 200, "{\"message\": \"Delete successful\"}")
 
 
 class UserAccessApi(JsonApiHandler):

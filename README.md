@@ -91,6 +91,15 @@ HTTP/1.1 201 Created
 }
 ````
 
+* PUT /rooms/[ROOM_ID] - updates the status and the type of an existing room
+````
+curl -X PUT --data '{"type": "trial", "status": "suspended"}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV -i
+````
+````
+HTTP/1.1 204 No Content
+...
+````
+
 * GET /rooms/[ROOM_ID]/users - lists users which have access to a given room
 ````
 curl localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users
