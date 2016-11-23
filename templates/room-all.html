@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    {% include 'templates/includes/style-bootstrap.html' %}
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">chatty-pie</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/accounts/list">All accounts</a></li>
+                <li class="active"><a href="/rooms/list">All rooms</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Chatrooms</h1>
+    <table class="table table-striped">
+        {% for chatroom in chatrooms %}
+            {% include 'templates/includes/room-row.html' %}
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>
+{% endautoescape %}

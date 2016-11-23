@@ -1,0 +1,13 @@
+{% set suspended_room = chatroom.status == "suspended" %}
+{% set trial_room = chatroom.type == "trial" %}
+<tr>
+    <td>
+        <a href="/rooms/view?id={{ chatroom.key.urlsafe() }}">{{ chatroom.name }}</a>
+        <span title="The type of the room"
+              class="label label-{{ "default" if trial_room else "primary" }}">{{ chatroom.type }}</span>
+        <span class="label label-{{ "danger" if suspended_room else "success" }}"
+              title="{{ chatroom.status }} room">
+                        <span class="glyphicon glyphicon-{{ "ban-circle" if suspended_room else "ok-circle" }}"></span>
+        </span>
+    </td>
+</tr>
