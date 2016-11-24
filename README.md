@@ -12,7 +12,7 @@ Master is deployed at https://operating-attic-146121.appspot.com/
 
 ## Entities
 * `Account`: it owns a bunch of `chatrooms`.
-* `Chatroom`: contains a bunch of `posts` made by `users`. Has a name and is owned by an `Account`.
+* `Chatroom`: contains a bunch of `posts` made by `users`. Has a name, a type (`trial` or `standard`), a status (`active` or `suspended`) and is owned by an `Account`.
 * `Post`: added to a `chatroom` by a `user`. Has content and a timestamp.
 * `User`: the one making `posts` to `chatrooms`. Can have access to >1 rooms.
 
@@ -50,7 +50,9 @@ curl localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/rooms
   {
     "account_id": "aghkZXZ-TuZDFUCxIHER5",
     "id": "aghkZXZ-Tm9uZXIVCxIIQ2hhdHJvb20YgICAgIDyiAkM",
-    "name": "my first room"
+    "name": "my first room",
+    "type": "standard",
+    "status": "active"
   },
   ...
 ]
@@ -65,7 +67,9 @@ curl localhost:8080/rooms
   {
     "account_id": "aghkZXZ-TuZDFUCxIHER5",
     "id": "aghkZXZ-Tm9uZXIVCxIIQ2hhdHJvb20YgICAgIDyiAkM",
-    "name": "my first room"
+    "name": "my first room",
+    "type": "standard",
+    "status": "active"
   },
   ...
 ]
@@ -81,8 +85,19 @@ HTTP/1.1 201 Created
 {
   "account_id": "aghkZXZ-TuZDFUCxIHER5",
   "id": "aghkZXZ-Tm9uZXIVCxVVV",
-  "name": "my new corporate room"
+  "name": "my new corporate room",
+  "type": "standard",
+  "status": "active"
 }
+````
+
+* PUT /rooms/[ROOM_ID] - updates the status and the type of an existing room
+````
+curl -X PUT --data '{"type": "trial", "status": "suspended"}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV -i
+````
+````
+HTTP/1.1 204 No Content
+...
 ````
 
 * GET /rooms/[ROOM_ID]/users - lists users which have access to a given room
@@ -131,13 +146,13 @@ curl -X POST --data '{"user_email": "user@email.com", "content": "This is my fir
 HTTP/1.1 201 Created
 ...
 {
-    "content": "This is my first post <br>", 
-    "date": "2016-10-17T20:43:39.367700", 
+    "content": "This is my first post <br>",
+    "date": "2016-10-17T20:43:39.367700",
     "user_email": "user@email.com"
 }
 ````
 
-* DELETE /rooms/[ROOM_ID] - delete a room by id 
+* DELETE /rooms/[ROOM_ID] - delete a room by id
 ````
 curl -X DELETE localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxIIQ2hhdHJvb20YgICAgIDQuwsM -i
 ````

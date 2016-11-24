@@ -1,0 +1,25 @@
+{% import 'templates/includes/style-navbar.html' as navbar %}
+
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    {% include 'templates/includes/style-bootstrap.html' %}
+</head>
+<body>
+
+{{ navbar.show("accounts") }}
+
+<div class="container">
+    <h1>All Accounts</h1>
+    <table class="table table-striped">
+        {% for account in accounts %}
+            <tr>
+                <td><a href="/accounts/view?id={{ account.key.urlsafe() }}">{{ account.key.urlsafe() }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>
+{% endautoescape %}

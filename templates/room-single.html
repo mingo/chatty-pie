@@ -1,14 +1,11 @@
+{% import 'templates/includes/style-navbar.html' as navbar %}
+
 <!DOCTYPE html>
 {% autoescape true %}
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    {% include 'templates/includes/style-bootstrap.html' %}
     <style type="text/css">
-        body {
-            padding-top: 70px;
-        }
-
         .message-bubble {
             padding: 10px 0px 10px 0px;
         }
@@ -30,19 +27,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">chatty-pie</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="/accounts/list">All accounts</a></li>
-                <li><a href="/rooms/list">All rooms</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+{{ navbar.show() }}
 
 <div class="container">
     <div class="row">
@@ -50,15 +35,27 @@
         {# This chatroom style comes from http://bootsnipp.com/snippets/40W9n #}
         <div class="col-md-8" id="posts">
             <div class="panel panel-default">
-                <div class="panel-heading">#{{ room_name }}</div>
+                <div class="panel-heading">
+                    #{{ room_name }}
+                    <span title="status of this room"
+                          class="label label-{{ "success" if room_status == "active" else "danger" }}">{{ room_status }}</span>
+                </div>
                 <div class="panel-body">
-                    {% if not posts %}
+                    {% if not posts and room_status == "active" %}
                         <div class="alert alert-info">
                             <strong>Welcome!</strong> There are no posts yet. Add some with:
                             <pre>
 curl -X POST --data\
     '{"user_email": "user@email.com", "content": "my post"}'\
   [host]/rooms/{{ room_id }}/posts -i</pre>
+                        </div>
+                    {% elif room_status != "active" %}
+                        <div class="alert alert-danger">
+                            This room is suspended. No new posts are allowed. Re-activate this room with:
+                            <pre>
+curl -X PUT --data\
+    '{"status": "active", "type": "{{ room_type }}"}'\
+  [host]/rooms/{{ room_id }} -i</pre>
                         </div>
                     {% endif %}
 

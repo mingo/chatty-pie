@@ -43,15 +43,20 @@ def delete_chatroom(urlsafe_chatroom_id):
     get_chatroom(urlsafe_chatroom_id).key.delete()
 
 
-class IllegalChatroomTypeException(Exception):
-    pass
-
-
-def create_chatroom(urlsafe_account_id, name, type):
+def create_chatroom(urlsafe_account_id, name, type, status):
     account = get_account(urlsafe_account_id)
-    if type != "standard" and type != "trial":
-        raise IllegalChatroomTypeException
-    chatroom = Chatroom(account_key=account.key, name=name, type=type)
+    chatroom = Chatroom(account_key=account.key, name=name, type=type, status=status)
+    chatroom.put()
+
+    return chatroom
+
+
+def update_chatroom(urlsafe_chatroom_id, new_type, new_status):
+    chatroom = get_chatroom(urlsafe_chatroom_id)
+    if new_type is not None:
+        chatroom.type = new_type
+    if new_status is not None:
+        chatroom.status = new_status
     chatroom.put()
 
     return chatroom
@@ -78,18 +83,10 @@ def get_posts_in(urlsafe_chatroom_id):
     return Post.query(Post.chatroom_key == chatroom.key).fetch()
 
 
-def update_type_of(urlsafe_chatroom_id, new_type):
-    if new_type != "standard" and new_type != "trial":
-        raise IllegalChatroomTypeException
-    chatroom = get_chatroom(urlsafe_chatroom_id)
-    chatroom.type = new_type
-    chatroom.put()
-
-    return chatroom
-
-
 def create_post(urlsafe_chatroom_id, user_email, content):
     chatroom = get_chatroom(urlsafe_chatroom_id)
+    if chatroom.status != 'active':
+        raise ValueError("Posts cannot be published while chatroom is suspended.")
     post = Post(chatroom_key=chatroom.key, user_email=user_email, content=content)
     post.put()
 

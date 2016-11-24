@@ -1,0 +1,30 @@
+{% import 'templates/includes/style-navbar.html' as navbar %}
+
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    {% include 'templates/includes/style-bootstrap.html' %}
+</head>
+<body>
+
+{{ navbar.show() }}
+
+<div class="container">
+    <h1>Chatrooms in account #{{ account_id }}</h1>
+    {% if not chatrooms %}
+        <div class="row alert alert-info">
+            No rooms exist for this account! Create some with:
+            <pre>curl -X PUT --data '{"name": "my-room"}' [host]/accounts/{{ account_id }}/rooms -i</pre>
+        </div>
+    {% endif %}
+    <table class="table table-striped">
+        {% for chatroom in chatrooms %}
+            {% include 'templates/includes/room-row.html' %}
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>
+{% endautoescape %}

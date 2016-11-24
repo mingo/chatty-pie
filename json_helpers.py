@@ -31,7 +31,8 @@ def _chatroom_to_dict(chatroom):
         "id": chatroom.key.urlsafe(),
         "account_id": chatroom.account_key.urlsafe(),
         "name": chatroom.name,
-        "type": chatroom.type
+        "type": chatroom.type,
+        "status": chatroom.status
     }
 
 

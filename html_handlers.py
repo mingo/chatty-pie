@@ -25,7 +25,7 @@ class AllAccounts(webapp2.RequestHandler):
             "accounts": all_accounts
         }
 
-        template = JINJA_ENVIRONMENT.get_template('templates/all-accounts.html')
+        template = JINJA_ENVIRONMENT.get_template('templates/account-all.html')
         self.response.write(template.render(template_values))
 
 
@@ -39,7 +39,7 @@ class SingleAccount(webapp2.RequestHandler):
             "chatrooms": chatrooms
         }
 
-        template = JINJA_ENVIRONMENT.get_template('templates/single-account.html')
+        template = JINJA_ENVIRONMENT.get_template('templates/account-single.html')
         self.response.write(template.render(template_values))
 
 
@@ -51,7 +51,7 @@ class AllRooms(webapp2.RequestHandler):
             "chatrooms": all_rooms
         }
 
-        template = JINJA_ENVIRONMENT.get_template('templates/all-rooms.html')
+        template = JINJA_ENVIRONMENT.get_template('templates/room-all.html')
         self.response.write(template.render(template_values))
 
 
@@ -65,9 +65,11 @@ class SingleRoom(webapp2.RequestHandler):
         template_values = {
             "room_name": room.name,
             "room_id": room_id,
+            "room_status": room.status,
+            "room_type": room.type,
             "posts": posts,
             "users": users
         }
 
-        template = JINJA_ENVIRONMENT.get_template('templates/single-room.html')
+        template = JINJA_ENVIRONMENT.get_template('templates/room-single.html')
         self.response.write(template.render(template_values))
