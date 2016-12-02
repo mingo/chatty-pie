@@ -186,7 +186,11 @@ Date: Thu, 03 Nov 2016 14:31:22 GMT
 * Stack traces about `NeedIndexError` are transient: they will disappear after 5 minutes or so (until indices are created.)
 
 ## How to test?
-* There are no tests for now. The shame is on us.
+* chatty-pie's purchase and cancel flows are automate and can be run using E2E portal
+  * Navigate to https://e2e.appdirect.com and login
+  * Click on trigger run 
+  * Select your Appdirect PR from drop down
+  * Test Suite: pi/products/chattypie/chatty_pie
 
 ## License
 Most of the code is Copyright 2016 Google Inc.
