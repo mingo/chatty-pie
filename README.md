@@ -8,7 +8,9 @@ This is a Python app that runs on Google App Engine.
 This started as a fork of [Google's own appengine-guestbook-python][2].
 So thank Google for the original code.
 
-Master is deployed at https://operating-attic-146121.appspot.com/
+Master is deployed on 2 environments:
+* dev: https://operating-attic-146121.appspot.com/
+* prod: https://chattypie-148413.appspot.com/
 
 ## Entities
 * `Account`: it owns a bunch of `chatrooms`.
