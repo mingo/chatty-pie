@@ -54,7 +54,7 @@ curl -X POST --data\
                             This room is suspended. No new posts are allowed. Re-activate this room with:
                             <pre>
 curl -X PUT --data\
-    '{"status": "active", "type": "{{ room_type }}"}'\
+    '{"status": "active", "type": "{{ room_type }}, "full_history_enabled": {{ full_history_enabled }}"}'\
   [host]/rooms/{{ room_id }} -i</pre>
                         </div>
                     {% endif %}
@@ -75,7 +75,7 @@ curl -X PUT --data\
                 <div class="alert alert-warning">
                     No users are allowed to post to this chatroom yet. Assign some with:
                     <pre>curl -X PUT --data\
-'{"email": "x@y.ca", "canSeeAllHistory": true}'\
+'{"email": "x@y.ca"}'\
 [host]/rooms/{{ room_id }}/users -i</pre>
                 </div>
             {% endif %}

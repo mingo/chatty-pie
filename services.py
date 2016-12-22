@@ -45,18 +45,20 @@ def delete_chatroom(urlsafe_chatroom_id):
 
 def create_chatroom(urlsafe_account_id, name, type, status):
     account = get_account(urlsafe_account_id)
-    chatroom = Chatroom(account_key=account.key, name=name, type=type, status=status)
+    chatroom = Chatroom(account_key=account.key, name=name, type=type, status=status, full_history_enabled=False)
     chatroom.put()
 
     return chatroom
 
 
-def update_chatroom(urlsafe_chatroom_id, new_type, new_status):
+def update_chatroom(urlsafe_chatroom_id, new_type, new_status, full_history_enabled):
     chatroom = get_chatroom(urlsafe_chatroom_id)
     if new_type is not None:
         chatroom.type = new_type
     if new_status is not None:
         chatroom.status = new_status
+    if full_history_enabled is not None:
+        chatroom.full_history_enabled = full_history_enabled
     chatroom.put()
 
     return chatroom

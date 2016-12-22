@@ -32,7 +32,8 @@ def _chatroom_to_dict(chatroom):
         "account_id": chatroom.account_key.urlsafe(),
         "name": chatroom.name,
         "type": chatroom.type,
-        "status": chatroom.status
+        "status": chatroom.status,
+        "full_history_enabled": chatroom.full_history_enabled
     }
 
 
@@ -42,8 +43,7 @@ def json_users(users):
 
 def _user_to_dict(user):
     return {
-        "email": user.email,
-        "canSeeAllHistory": user.can_see_all_history
+        "email": user.email
     }
 
 

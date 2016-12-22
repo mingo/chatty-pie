@@ -65,7 +65,8 @@ class ChatroomApi(JsonApiHandler):
     def put(self, chatroom_id):
         chatroom_type = self.get_optional_json_value("type")
         chatroom_status = self.get_optional_json_value("status")
-        update_chatroom(chatroom_id, chatroom_type, chatroom_status)
+        chatroom_full_history_enabled = self.get_optional_json_value("full_history_enabled")
+        update_chatroom(chatroom_id, chatroom_type, chatroom_status, chatroom_full_history_enabled)
 
         self.response.status = 204
 
@@ -81,14 +82,13 @@ class UserAccessApi(JsonApiHandler):
 
     def put(self, chatroom_id):
         email = self.get_mandatory_json_value("email")
-        can_see_all_history = self.get_mandatory_json_value("canSeeAllHistory")
 
-        allow_user_access_in_chatroom(chatroom_id, email, can_see_all_history)
+        allow_user_access_in_chatroom(chatroom_id, email)
 
         self.response.status = 204
 
 
-class PostApi(JsonApiHandler):
+class ChatroomPostApi(JsonApiHandler):
     def get(self, chatroom_id):
         all_posts_in_this_chatroom = get_posts_in(chatroom_id)
         write_json_response(self.response, 200, json_posts(all_posts_in_this_chatroom))

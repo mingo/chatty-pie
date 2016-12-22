@@ -93,9 +93,9 @@ HTTP/1.1 201 Created
 }
 ````
 
-* PUT /rooms/[ROOM_ID] - updates the status and the type of an existing room
+* PUT /rooms/[ROOM_ID] - updates the status, type or access to full history for an existing room
 ````
-curl -X PUT --data '{"type": "trial", "status": "suspended"}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV -i
+curl -X PUT --data '{"type": "trial", "status": "suspended", "full_history_enabled": true}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV -i
 ````
 ````
 HTTP/1.1 204 No Content
@@ -109,16 +109,15 @@ curl localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users
 ````
 [
   {
-    "email": "someuser@some.com",
-    "canSeeAllHistory": false
+    "email": "someuser@some.com"
   },
   ...
 ]
 ````
 
-* PUT /rooms/[ROOM_ID]/users - grants access to a user for a given room and determines if user can see all of the room's history.
+* PUT /rooms/[ROOM_ID]/users - grants access to a user for a given room
 ````
-curl -X PUT --data '{"email": "user@email.com", "canSeeAllHistory": true}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users -i
+curl -X PUT --data '{"email": "user@email.com"}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users -i
 ````
 ````
 HTTP/1.1 204 No Content

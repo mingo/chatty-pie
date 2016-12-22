@@ -23,6 +23,7 @@ class Chatroom(ndb.Model):
     type = ndb.StringProperty(indexed=False, validator=chatroom_type_validator)
     status = ndb.StringProperty(indexed=False, validator=chatroom_status_validator)
     users_with_access = ndb.StructuredProperty(ChatroomUser, repeated=True)
+    full_history_enabled = ndb.BooleanProperty()
 
 
 class Post(ndb.Model):
