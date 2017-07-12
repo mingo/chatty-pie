@@ -14,7 +14,7 @@
 
 import webapp2
 
-from api_handlers import AccountApi, ChatroomApi, UserAccessApi, ChatroomPostApi
+from api_handlers import AccountApi, ChatroomApi, UserAccessApi, AllUsersInChatroom, ChatroomPostApi
 from error_handlers import handle_400, handle_500
 from html_handlers import RedirectToAccounts, AllAccounts, SingleAccount, SingleRoom, AllRooms
 
@@ -27,7 +27,8 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/rooms', ChatroomApi, methods=["GET"], handler_method="get_all_rooms"),
     webapp2.Route('/rooms/view', SingleRoom),
     webapp2.Route('/rooms/list', AllRooms),
-    webapp2.Route('/rooms/<chatroom_id>/users', UserAccessApi),
+    webapp2.Route('/rooms/<chatroom_id>/users', AllUsersInChatroom),
+    webapp2.Route('/rooms/<chatroom_id>/users/<email>', UserAccessApi),
     webapp2.Route('/rooms/<chatroom_id>/posts', ChatroomPostApi),
     webapp2.Route('/rooms/<chatroom_id>', ChatroomApi)
 ], debug=True)
