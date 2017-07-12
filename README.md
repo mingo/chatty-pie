@@ -115,9 +115,18 @@ curl localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users
 ]
 ````
 
-* PUT /rooms/[ROOM_ID]/users - grants access to a user for a given room
+* POST /rooms/[ROOM_ID]/users/[USER_EMAIL] - grants access to a user for a given room
 ````
-curl -X PUT --data '{"email": "user@email.com"}' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users -i
+curl -X POST --data '' localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users/auser@example.com -i
+````
+````
+HTTP/1.1 204 No Content
+...
+````
+
+* DELETE /rooms/[ROOM_ID]/users/[USER_EMAIL] - grants access to a user for a given room
+````
+curl -X DELETE localhost:8080/rooms/aghkZXZ-Tm9uZXIVCxVVV/users/auser@example.com -i
 ````
 ````
 HTTP/1.1 204 No Content

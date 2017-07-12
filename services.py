@@ -92,6 +92,13 @@ def allow_user_access_in_chatroom(urlsafe_chatroom_id, user_email, can_see_all_h
     chatroom.put()
 
 
+def revoke_user_access_in_chatroom(urlsafe_chatroom_id, user_email):
+    chatroom = get_chatroom(urlsafe_chatroom_id)
+    users_with_access = chatroom.users_with_access
+    chatroom.users_with_access = filter(lambda user: user.email != user_email, users_with_access)
+    chatroom.put()
+
+
 def get_posts_in(urlsafe_chatroom_id):
     chatroom = get_chatroom(urlsafe_chatroom_id)
     return Post.query(Post.chatroom_key == chatroom.key).fetch()

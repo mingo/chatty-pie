@@ -18,7 +18,7 @@ from google.net.proto.ProtocolBuffer import ProtocolBufferDecodeError
 from json_helpers import json_account, get_json_value, json_accounts, json_chatroom, json_chatrooms, json_users, \
     json_posts, json_post
 from services import create_account, get_all_accounts, create_chatroom, delete_chatroom, get_all_chatrooms, \
-    allow_user_access_in_chatroom, \
+    allow_user_access_in_chatroom, revoke_user_access_in_chatroom,\
     get_chatrooms_in, get_all_users_allowed_in, get_posts_in, create_post, \
     update_chatroom
 
@@ -87,16 +87,19 @@ class ChatroomApi(JsonApiHandler):
         write_json_response(self.response, 200, "{\"message\": \"Delete successful\"}")
 
 
-class UserAccessApi(JsonApiHandler):
+class AllUsersInChatroom(JsonApiHandler):
     def get(self, chatroom_id):
         all_users_allowed_in_chatroom = get_all_users_allowed_in(chatroom_id)
         write_json_response(self.response, 200, json_users(all_users_allowed_in_chatroom))
 
-    def put(self, chatroom_id):
-        email = self.get_mandatory_json_value("email")
 
-        allow_user_access_in_chatroom(chatroom_id, email)
+class UserAccessApi(JsonApiHandler):
+    def post(self, chatroom_id, email):
+        allow_user_access_in_chatroom(chatroom_id, email, False)
+        self.response.status = 204
 
+    def delete(self, chatroom_id, email):
+        revoke_user_access_in_chatroom(chatroom_id, email)
         self.response.status = 204
 
 
