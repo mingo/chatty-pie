@@ -60,6 +60,29 @@ curl localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/rooms
 ]
 ````
 
+* GET /accounts/[ACCOUNT_ID]/domains/[DOMAIN_NAME]/ownershipRecords - Shows the ownership verification token for that account and domain
+````
+curl localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/domains/example.com/ownershipRecords
+````
+````
+  {
+    "account": "aghkZXZ-TuZDFUCxIHER5", 
+    "domain": "example.com",
+    "token": "chatty-pie-verification=agdffhdhkZXZ-TuZDFUCxIHER5FGGFsdfgs",
+    "record_type": "TXT"
+  }
+````
+
+* POST /accounts/[ACCOUNT_ID]/domains/[DOMAIN_NAME]/triggerOwnershipVerification - signals chatty pie that it can begin the ownership verification process
+````
+curl -X POST localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/domains/example.com/triggerOwnershipVerification
+````
+````
+HTTP/1.1 200 OK
+````
+Note that this API will return 400 if the account does not exist, or if the validation proof has never been requested for
+that account and domain name combination
+
 * GET /rooms - lists all rooms across all accounts
 ````
 curl localhost:8080/rooms

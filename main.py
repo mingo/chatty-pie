@@ -14,7 +14,8 @@
 
 import webapp2
 
-from api_handlers import AccountApi, ChatroomApi, UserAccessApi, AllUsersInChatroom, ChatroomPostApi
+from api_handlers import AccountApi, ChatroomApi, UserAccessApi, AllUsersInChatroom, ChatroomPostApi, AccountDomainOwnershipApi, \
+    OwnershipVerificationApi
 from error_handlers import handle_400, handle_500
 from html_handlers import RedirectToAccounts, AllAccounts, SingleAccount, SingleRoom, AllRooms
 
@@ -23,6 +24,8 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/accounts', AccountApi),
     webapp2.Route('/accounts/list', AllAccounts),
     webapp2.Route('/accounts/view', SingleAccount),
+    webapp2.Route('/accounts/<account_id>/domains/<domain_name>/ownershipProof', AccountDomainOwnershipApi),
+    webapp2.Route('/accounts/<account_id>/domains/<domain_name>/triggerOwnershipVerification', OwnershipVerificationApi),
     webapp2.Route('/accounts/<account_id>/rooms', ChatroomApi),
     webapp2.Route('/rooms', ChatroomApi, methods=["GET"], handler_method="get_all_rooms"),
     webapp2.Route('/rooms/view', SingleRoom),
@@ -30,7 +33,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/rooms/<chatroom_id>/users', AllUsersInChatroom),
     webapp2.Route('/rooms/<chatroom_id>/users/<email>', UserAccessApi),
     webapp2.Route('/rooms/<chatroom_id>/posts', ChatroomPostApi),
-    webapp2.Route('/rooms/<chatroom_id>', ChatroomApi)
+    webapp2.Route('/rooms/<chatroom_id>', ChatroomApi, methods=["GET"], handler_method="get_room")
 ], debug=True)
 app.error_handlers[400] = handle_400
 app.error_handlers[500] = handle_500

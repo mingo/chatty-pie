@@ -14,7 +14,7 @@
 
 from google.appengine.ext import ndb
 
-from entities import Account, Chatroom, Post, ChatroomUser
+from entities import Account, Chatroom, Post, ChatroomUser, DomainOwnershipProof
 
 
 def get_account(urlsafe_account_id):
@@ -22,6 +22,24 @@ def get_account(urlsafe_account_id):
     if account is None or not isinstance(account, Account):
         raise LookupError("Cannot find an account with id " + urlsafe_account_id)
     return account
+
+
+def get_domain_ownership_proof(urlsafe_account_id, domain_name):
+    existing_ownership_proofs = get_existing_ownership_proofs(urlsafe_account_id, domain_name)
+    if not existing_ownership_proofs:
+        ownership_proof = DomainOwnershipProof(account_id=urlsafe_account_id, domain_name=domain_name)
+        ownership_proof.put()
+    else:
+        ownership_proof = existing_ownership_proofs[0]
+
+    return ownership_proof
+
+
+def get_existing_ownership_proofs(urlsafe_account_id, domain_name):
+    get_account(urlsafe_account_id) # load account to see if exists
+    return DomainOwnershipProof \
+        .query(DomainOwnershipProof.account_id == urlsafe_account_id, DomainOwnershipProof.domain_name == domain_name) \
+        .fetch()
 
 
 def get_all_accounts():

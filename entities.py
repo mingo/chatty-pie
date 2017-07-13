@@ -44,3 +44,12 @@ class Post(ndb.Model):
     date = ndb.DateTimeProperty(auto_now_add=True)
     user_email = ndb.StringProperty(indexed=False)
     content = ndb.StringProperty(indexed=False)
+
+
+class DomainOwnershipProof(ndb.Model):
+    """
+    A model representing the token that needs to be added to a domain,
+    so that the ownership of the domain can be verified
+    """
+    account_id = ndb.StringProperty(indexed=True)
+    domain_name = ndb.StringProperty(indexed=True)

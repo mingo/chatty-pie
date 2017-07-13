@@ -15,6 +15,10 @@
 import json
 
 
+def json_domain_ownership_proof(domain_ownership_proof):
+    return json.dumps(_ownership_proof_to_dict(domain_ownership_proof))
+
+
 def json_account(account):
     return json.dumps(_account_to_dict(account))
 
@@ -27,6 +31,15 @@ def _account_to_dict(account):
     return {
         "id": account.key.urlsafe(),
         "max_allowed_rooms": account.max_allowed_rooms
+    }
+
+
+def _ownership_proof_to_dict(domain_ownership_proof):
+    return {
+        "account": domain_ownership_proof.account_id,
+        "token": "chatty-pie-verification=" + domain_ownership_proof.key.urlsafe(),
+        "domain": domain_ownership_proof.domain_name,
+        "record_type": "TXT"
     }
 
 
