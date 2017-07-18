@@ -60,9 +60,9 @@ curl localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/rooms
 ]
 ````
 
-* GET /accounts/[ACCOUNT_ID]/domains/[DOMAIN_NAME]/ownershipRecords - Shows the ownership verification token for that account and domain
+* GET /accounts/[ACCOUNT_ID]/domains/[DOMAIN_NAME]/ownershipProof - Shows the ownership verification token for that account and domain
 ````
-curl localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/domains/example.com/ownershipRecords
+curl localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/domains/example.com/ownershipProof
 ````
 ````
   {
