@@ -217,7 +217,6 @@ Date: Thu, 03 Nov 2016 14:31:22 GMT
 * `gcloud app deploy app.yaml`
 * Stack traces about `NeedIndexError` are transient: they will disappear after 5 minutes or so (until indices are created.)
 
-
 ## License
 Most of the code is Copyright 2016 Google Inc.
 Everything is under the Apache license.
