@@ -59,6 +59,24 @@ curl localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/rooms
 ]
 ````
 
+* POST /accounts/[ACCOUNT_ID]/domains/[DOMAIN_NAME] - Adds a new domain for an account
+````
+curl -X POST localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/domains/example.com
+````
+````
+HTTP/1.1 200 OK
+````
+Note that this endpoint will return 409 if the domain already exists.
+
+* DELETE /accounts/[ACCOUNT_ID]/domains/[DOMAIN_NAME] - Removes a domain for an account
+````
+curl -X DELETE localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/domains/example.com
+````
+````
+HTTP/1.1 200 OK
+````
+Note that this endpoint will return 404 if the domain does not exist.
+
 * GET /accounts/[ACCOUNT_ID]/domains/[DOMAIN_NAME]/ownershipProof - Shows the ownership verification token for that account and domain
 ````
 curl localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/domains/example.com/ownershipProof
@@ -79,7 +97,7 @@ curl -X POST localhost:8080/accounts/aghkZXZ-TuZDFUCxIHER5/domains/example.com/t
 ````
 HTTP/1.1 200 OK
 ````
-Note that this API will return 400 if the account does not exist, or if the validation proof has never been requested for
+Note that this endpoint will return 400 if the account does not exist, or if the validation proof has never been requested for
 that account and domain name combination
 
 * GET /rooms - lists all rooms across all accounts
@@ -207,6 +225,18 @@ Date: Thu, 03 Nov 2016 14:31:22 GMT
 
 ## How to develop?
 * use [pycharm][4] or any text editor
+
+## Test with Postman
+Just create an environment in Postman with the following fields:
+* host: points to the chatty-pie instance
+* account_id: for account specific requests
+* domain: for domain specific requests
+* room_id: for room specific requests
+* user_email: for room user specific
+
+Finally, use the button below to import the Postman collection
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/4e15f19e8fc79d93728a)
 
 ## How to run locally?
 * have the requirements: `python` & `gcloud`.
