@@ -9,7 +9,7 @@ This started as a fork of [Google's own appengine-guestbook-python][2].
 So thank Google for the original code.
 
 Master is deployed at:
-* https://chattypie-148413.appspot.com/
+* https://chattypie-191201.appspot.com
 
 ## Entities
 * `Account`: it owns a bunch of `chatrooms`.
