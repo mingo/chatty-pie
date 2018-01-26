@@ -85,18 +85,10 @@ class OwnershipVerificationApi(JsonApiHandler):
             write_json_response(self.response, 200, "")
 
 
-class ChatroomApi(JsonApiHandler):
+class AccountChatroomApi(JsonApiHandler):
     def get(self, account_id):
         all_chatrooms_in_this_account = get_chatrooms_in(account_id)
         write_json_response(self.response, 200, json_chatrooms(all_chatrooms_in_this_account))
-
-    def get_room(self, chatroom_id):
-        room = get_chatroom(chatroom_id)
-        write_json_response(self.response, 200, json_chatroom(room))
-
-    def get_all_rooms(self):
-        all_chatrooms = get_all_chatrooms()
-        write_json_response(self.response, 200, json_chatrooms(all_chatrooms))
 
     def post(self, account_id):
         chatroom_name = self.get_mandatory_json_value("name")
@@ -107,12 +99,21 @@ class ChatroomApi(JsonApiHandler):
         chatroom = create_chatroom(account_id, chatroom_name, chatroom_type, chatroom_status)
         write_json_response(self.response, 201, json_chatroom(chatroom))
 
+
+class ChatroomApi(JsonApiHandler):
+    def get_all_rooms(self):
+        all_chatrooms = get_all_chatrooms()
+        write_json_response(self.response, 200, json_chatrooms(all_chatrooms))
+
+    def get(self, chatroom_id):
+            room = get_chatroom(chatroom_id)
+            write_json_response(self.response, 200, json_chatroom(room))
+
     def put(self, chatroom_id):
         chatroom_type = self.get_optional_json_value("type")
         chatroom_status = self.get_optional_json_value("status")
         chatroom_full_history_enabled = self.get_optional_json_value("full_history_enabled")
         update_chatroom(chatroom_id, chatroom_type, chatroom_status, chatroom_full_history_enabled)
-
         self.response.status = 204
 
     def delete(self, chatroom_id):
